@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   basePath: isProd ? '/CapyFlow-Academy' : '',
-  assetPrefix: isProd ? '/CapyFlow-Academy/' : '',
 };
+
 
 
 export default nextConfig;
