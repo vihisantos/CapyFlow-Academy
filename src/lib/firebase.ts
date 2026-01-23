@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyByuF8l4p9UihIkVd0JmBD9QOFCE-Qx0Fo",
-    authDomain: "capyflow-academy-6de6b.firebaseapp.com",
-    projectId: "capyflow-academy-6de6b",
-    storageBucket: "capyflow-academy-6de6b.firebasestorage.app",
-    messagingSenderId: "546534461706",
-    appId: "1:546534461706:web:23332d758639af23a4aaf3",
-    measurementId: "G-PDVEHD4PVG"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
