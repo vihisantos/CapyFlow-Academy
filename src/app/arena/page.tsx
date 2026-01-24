@@ -21,7 +21,7 @@ export default function ArenaPage() {
         <main className="min-h-screen bg-[#0a0a0a] text-white p-6 md:p-12 lg:p-24">
             {/* Background Decor */}
             <div className="fixed inset-0 pointer-events-none">
-                <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500/5 rounded-full blur-[120px]" />
+                <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/5 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900/5 rounded-full blur-[120px]" />
             </div>
 
@@ -35,7 +35,7 @@ export default function ArenaPage() {
                             exit={{ opacity: 0, y: -20 }}
                         >
                             <div className="mb-12">
-                                <h1 className="text-5xl font-bold mb-4 italic">Escolha seu <span className="text-emerald-400">Treino</span></h1>
+                                <h1 className="text-5xl font-bold mb-4 italic">Escolha seu <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-500">Treino</span></h1>
                                 <p className="text-xl text-gray-400">Selecione uma linguagem e o nível de dificuldade para entrar na arena.</p>
                             </div>
                             <ChallengeSelect onSelect={setSelectedSnippet} />
@@ -57,7 +57,8 @@ export default function ArenaPage() {
                             </button>
 
                             <div className="flex items-center space-x-4 mb-2">
-                                <span className="text-emerald-500 font-mono text-sm px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                                <span className="text-cyan-500 font-mono text-sm px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+
                                     {selectedSnippet.language.toUpperCase()}
                                 </span>
                                 <h2 className="text-3xl font-bold">{selectedSnippet.title}</h2>

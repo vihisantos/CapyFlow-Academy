@@ -94,7 +94,8 @@ export default function Dashboard() {
                     <StatCard icon={<Trophy className="text-yellow-400" />} label="Sessões Completas" value={stats?.totalSnippetsCompleted || 0} />
                     <StatCard icon={<Zap className="text-cyan-400" />} label="Melhor WPM" value={Math.max(...sessions.map(s => s.wpm), 0)} />
                     <StatCard icon={<Activity className="text-pink-400" />} label="Precisão Média" value={Math.round(sessions.reduce((acc, s) => acc + s.accuracy, 0) / (sessions.length || 1)) + "%"} />
-                    <StatCard icon={<Clock className="text-emerald-400" />} label="Tempo de Treino" value={Math.round((stats?.totalTimeSpent || 0) / 60) + " min"} />
+                    <StatCard icon={<Clock className="text-purple-400" />} label="Tempo de Treino" value={Math.round((stats?.totalTimeSpent || 0) / 60) + " min"} />
+
                 </div>
 
                 {/* Recent History */}

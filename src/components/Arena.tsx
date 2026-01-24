@@ -201,13 +201,15 @@ export default function Arena({ code, language, description, snippetId, onComple
 
 
     const glowClasses = {
-        cyan: 'border-cyan-500/30 shadow-[0_0_40px_rgba(34,211,238,0.2)]',
+        cyan: 'border-cyan-500/20 shadow-[0_0_30px_rgba(34,211,238,0.1)]',
+
         purple: 'border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.2)]',
         red: 'border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.2)]',
     };
 
     const textColors = {
         cyan: 'text-cyan-400',
+
         purple: 'text-purple-400',
         red: 'text-red-400',
     };
@@ -255,12 +257,14 @@ export default function Arena({ code, language, description, snippetId, onComple
                 {/* Input Overlay */}
                 <textarea
                     autoFocus
-                    className="absolute inset-0 w-full h-full bg-transparent font-mono text-[18px] p-[10px] pl-[62px] resize-none focus:outline-none z-20 caret-emerald-500 leading-[23px]"
+                    className="absolute inset-0 w-full h-full bg-transparent font-mono text-[18px] p-[10px] pl-[62px] resize-none focus:outline-none z-20 caret-cyan-500 leading-[23px]"
+
                     style={{
                         fontFamily: 'JetBrains Mono, Menlo, Monaco, Courier New, monospace',
                         whiteSpace: 'pre-wrap',
                         color: 'transparent',
-                        caretColor: glowColor === 'emerald' ? '#10b981' : glowColor === 'yellow' ? '#eab308' : '#ef4444'
+                        caretColor: glowColor === 'cyan' ? '#22d3ee' : glowColor === 'purple' ? '#a855f7' : '#ef4444'
+
                     }}
                     value={userInput}
                     onChange={handleInputChange}
@@ -286,16 +290,18 @@ export default function Arena({ code, language, description, snippetId, onComple
                     animate={{ opacity: 1, scale: 1 }}
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
                 >
-                    <div className="glass p-12 rounded-3xl border border-emerald-500/30 text-center max-w-md w-full">
-                        <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Zap className="text-emerald-400 w-10 h-10 fill-current" />
+                    <div className="glass p-12 rounded-3xl border border-purple-500/30 text-center max-w-md w-full">
+                        <div className="w-20 h-20 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Zap className="text-purple-400 w-10 h-10 fill-current" />
+
                         </div>
                         <h2 className="text-4xl font-bold mb-4">Elite Performance!</h2>
                         <p className="text-gray-400 mb-6">Treino finalizado com sucesso.</p>
 
                         {description && (
                             <div className="mb-8 p-4 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300 text-left">
-                                <span className="text-emerald-400 font-bold block mb-1">Knowledge Drop:</span>
+                                <span className="text-purple-400 font-bold block mb-1">Knowledge Drop:</span>
+
                                 {description}
                             </div>
                         )}
@@ -303,8 +309,9 @@ export default function Arena({ code, language, description, snippetId, onComple
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                                 <div className="text-sm text-gray-400">WPM</div>
-                                <div className="text-2xl font-bold text-emerald-400">{wpm}</div>
+                                <div className="text-2xl font-bold text-cyan-400">{wpm}</div>
                             </div>
+
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                                 <div className="text-sm text-gray-400">Precisão</div>
                                 <div className="text-2xl font-bold text-blue-400">{accuracy}%</div>

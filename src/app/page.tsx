@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { Terminal, Zap, Trophy, ShieldCheck, ChevronRight, User as UserIcon, LogOut } from "lucide-react";
 import Link from "next/link";
+import Footer from "@/components/Footer";
+
 
 export default function Home() {
   const { user, logout } = useAuth();
@@ -101,17 +103,17 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="mt-40 mb-10 text-slate-600 text-sm text-center font-medium tracking-wide">
-        © 2026 CapyFlow Academy. <span className="text-slate-500">Built for the Elite.</span>
-      </footer>
+      <Footer />
     </div>
   );
 }
 
+
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <div className="p-8 rounded-2xl glass border border-white/5 hover:border-emerald-500/20 transition-all group">
-      <div className="w-12 h-12 rounded-xl bg-emerald-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+    <div className="p-8 rounded-2xl glass border border-white/5 hover:border-cyan-500/20 transition-all group">
+      <div className="w-12 h-12 rounded-xl bg-cyan-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+
         {icon}
       </div>
       <h3 className="text-xl font-bold mb-3">{title}</h3>

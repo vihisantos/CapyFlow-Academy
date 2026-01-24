@@ -40,8 +40,9 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-6 relative overflow-hidden">
             {/* Background Glows */}
-            <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-emerald-500/10 rounded-full blur-[150px]" />
-            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-emerald-900/10 rounded-full blur-[150px]" />
+            <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-purple-500/10 rounded-full blur-[150px]" />
+            <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] bg-blue-900/10 rounded-full blur-[150px]" />
+
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -54,8 +55,9 @@ export default function LoginPage() {
                 </Link>
 
                 <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold italic mb-2">Entrar no <span className="text-emerald-400">CapyFlow</span></h1>
+                    <h1 className="text-4xl font-bold italic mb-2">Entrar no <span className="text-cyan-400">CapyFlow</span></h1>
                     <p className="text-gray-400">Entre na arena e mostre seu código.</p>
+
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -68,8 +70,9 @@ export default function LoginPage() {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500/50 transition-all"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-cyan-500/50 transition-all"
                                 placeholder="seu@email.com"
+
                             />
                         </div>
                     </div>
@@ -83,8 +86,9 @@ export default function LoginPage() {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500/50 transition-all"
+                                className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-cyan-500/50 transition-all"
                                 placeholder="••••••••"
+
                             />
                         </div>
                     </div>
@@ -101,8 +105,9 @@ export default function LoginPage() {
                 </form>
 
                 <p className="mt-8 text-center text-sm text-gray-400">
-                    Não tem uma conta? <Link href="/cadastro" className="text-emerald-400 hover:underline">Cadastre-se</Link>
+                    Não tem uma conta? <Link href="/cadastro" className="text-cyan-400 hover:underline">Cadastre-se</Link>
                 </p>
+
             </motion.div>
         </div>
     );
