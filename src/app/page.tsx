@@ -9,98 +9,99 @@ export default function Home() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#0a0a0a] text-white">
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#020617] text-white overflow-hidden relative selection:bg-cyan-500/30">
+      {/* Background Mesh */}
+      <div className="absolute inset-0 glow-mesh opacity-40 pointer-events-none" />
+
       {/* Header / Nav */}
-      <nav className="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-20">
-        <div className="text-2xl font-bold italic">Capy<span className="text-emerald-400">Flow</span></div>
+      <nav className="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-50">
+        <div className="text-2xl font-bold italic tracking-tighter">
+          Capy<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Flow</span>
+        </div>
 
         {user ? (
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3 glass px-4 py-2 rounded-full border border-white/10">
+            <div className="flex items-center space-x-3 glass px-4 py-2 rounded-full">
               {user.photoURL ? (
-                <img src={user.photoURL} alt={user.displayName || ""} className="w-8 h-8 rounded-full border border-emerald-500/30" />
+                <img src={user.photoURL} alt={user.displayName || ""} className="w-8 h-8 rounded-full border border-cyan-500/30" />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                  <UserIcon size={16} className="text-emerald-400" />
+                <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
+                  <UserIcon size={16} className="text-cyan-400" />
                 </div>
               )}
-              <span className="text-sm font-medium hidden md:block">{user.displayName || user.email}</span>
+              <span className="text-sm font-medium hidden md:block text-slate-300">{user.displayName || user.email}</span>
             </div>
-            <button onClick={() => logout()} className="p-2 text-gray-500 hover:text-red-400 transition-colors" title="Sair">
+            <button onClick={() => logout()} className="p-2 text-slate-400 hover:text-red-400 transition-colors" title="Sair">
               <LogOut size={20} />
             </button>
           </div>
         ) : (
-          <Link href="/login" className="px-6 py-2 glass rounded-full border border-emerald-500/20 text-emerald-400 font-semibold hover:bg-emerald-500/5 transition-all">
+          <Link href="/login" className="px-6 py-2 glass rounded-full text-cyan-400 font-semibold hover:bg-cyan-500/10 transition-all border border-cyan-500/20 hover:border-cyan-500/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)]">
             Entrar
           </Link>
         )}
       </nav>
 
-      {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-700/10 rounded-full blur-[120px]" />
-      </div>
-
-      <main className="relative z-10 max-w-5xl w-full flex flex-col items-center text-center space-y-12">
+      <main className="relative z-10 max-w-6xl w-full flex flex-col items-center text-center space-y-16 mt-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-6"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="space-y-8"
         >
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full glass border border-emerald-500/20 text-emerald-400 text-sm mb-4">
-            <Zap size={14} className="fill-current" />
-            <span>Acelere seu Código em 10x</span>
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass border border-cyan-500/20 text-cyan-300 text-sm shadow-[0_0_20px_rgba(34,211,238,0.1)]">
+            <Zap size={14} className="fill-current text-cyan-400" />
+            <span className="tracking-wide font-medium">Acelere seu Código em 10x</span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tight">
-            CapyFlow <span className="text-gradient">Academy</span>
+          <h1 className="text-7xl md:text-9xl font-bold tracking-tighter leading-tight">
+            CapyFlow <br className="hidden md:block" />
+            <span className="text-gradient">Academy</span>
           </h1>
 
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Domine a sintaxe real. Digite como um sênior. Aprenda as linguagens mais quentes com feedback em tempo real e gamificação.
+          <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed font-light">
+            Domine a sintaxe real. Digite como um sênior. <br className="hidden md:block" />
+            Feedback em tempo real, rankings globais e <span className="text-slate-200 font-medium">gamificação de elite</span>.
           </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6"
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8"
         >
-          <Link href="/arena" className="group px-8 py-4 capy-gradient rounded-xl font-bold text-lg flex items-center space-x-2 shadow-lg shadow-emerald-500/20 hover:scale-105 transition-transform active:scale-95">
+          <Link href="/arena" className="group px-10 py-5 cyber-btn rounded-2xl font-bold text-xl flex items-center space-x-3 text-white shadow-2xl shadow-cyan-500/20">
             <span>Começar Treino</span>
             <ChevronRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
 
-          <Link href="/dashboard" className="px-8 py-4 glass rounded-xl font-semibold text-lg flex items-center space-x-2 border border-white/10 hover:bg-white/5 transition-colors">
+          <Link href="/dashboard" className="px-10 py-5 glass rounded-2xl font-semibold text-xl flex items-center space-x-3 text-slate-300 hover:text-white hover:bg-white/5 transition-all border border-white/5 hover:border-white/20">
             <span>Ver Meus Avanços</span>
           </Link>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-32 px-4">
           <FeatureCard
-            icon={<Terminal className="text-emerald-400" />}
+            icon={<Terminal className="text-cyan-400" />}
             title="Código Real"
-            description="Trechos de produção de Python, JS, Go e mais."
+            description="Nada de lorem ipsum. Treine com trechos de produção de projetos Open Source reais."
           />
           <FeatureCard
-            icon={<Trophy className="text-emerald-400" />}
+            icon={<Trophy className="text-purple-400" />}
             title="Gamificação"
-            description="Suba no ranking e conquiste badges exclusivas."
+            description="Suba no ranking global, conquiste badges raras e desafie seus amigos."
           />
           <FeatureCard
-            icon={<ShieldCheck className="text-emerald-400" />}
+            icon={<ShieldCheck className="text-pink-400" />}
             title="Feedback Instantâneo"
-            description="Métricas precisas de WPM e acurácia de sintaxe."
+            description="Análise precisa de WPM, precisão e consistência a cada keystroke."
           />
         </div>
       </main>
 
-      <footer className="mt-32 text-gray-600 text-sm text-center">
-        © 2026 CapyFlow Academy. Built for the Elite.
+      <footer className="mt-40 mb-10 text-slate-600 text-sm text-center font-medium tracking-wide">
+        © 2026 CapyFlow Academy. <span className="text-slate-500">Built for the Elite.</span>
       </footer>
     </div>
   );
