@@ -3,13 +3,16 @@
 import { useEffect, useState } from "react";
 import { Storage, GameStats, SessionRecord, UserProfile } from "@/lib/storage";
 import { Gamification, LEVEL_CURVE } from "@/lib/gamification";
+import { useTheme } from "@/contexts/ThemeContext";
 
 import { motion } from "framer-motion";
-import { Trophy, Zap, Clock, Activity, Medal, ArrowUpRight } from "lucide-react";
+import { Trophy, Zap, Clock, Activity, Medal, ArrowUpRight, Palette, Crown } from "lucide-react";
 import Link from "next/link";
 
 export default function Dashboard() {
+    const { isPro } = useTheme();
     const [user, setUser] = useState<UserProfile | null>(null);
+
     const [stats, setStats] = useState<GameStats | null>(null);
     const [sessions, setSessions] = useState<SessionRecord[]>([]);
     const [loading, setLoading] = useState(true);
@@ -57,7 +60,14 @@ export default function Dashboard() {
                     <div className="flex items-center space-x-6">
                         <img src={user.photoURL} className="w-24 h-24 rounded-full border-2 border-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.2)]" />
                         <div>
-                            <h1 className="text-4xl font-bold tracking-tight mb-2">{user.displayName}</h1>
+                            <div className="flex items-center gap-2 mb-2">
+                                <h1 className="text-4xl font-bold tracking-tight">{user.displayName}</h1>
+                                {isPro && (
+                                    <span className="bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                                        <Crown size={12} className="fill-current" /> Pro
+                                    </span>
+                                )}
+                            </div>
                             <div className="flex items-center space-x-3 text-sm text-gray-400">
                                 <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 uppercase tracking-widest text-xs font-bold text-cyan-400">
                                     Nível {currentLevel}
@@ -66,11 +76,18 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                    <Link href="/arena" className="px-8 py-3 cyber-btn rounded-xl font-bold flex items-center space-x-2">
-                        <span>Nova Sessão</span>
-                        <ArrowUpRight size={18} />
-                    </Link>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Link href="/dashboard/themes" className="px-6 py-3 glass rounded-xl font-bold flex items-center justify-center space-x-2 text-primary border border-primary/30 hover:bg-primary/10 transition-all">
+                            <Palette size={18} />
+                            <span>Temas & Loja</span>
+                        </Link>
+                        <Link href="/arena" className="px-8 py-3 cyber-btn rounded-xl font-bold flex items-center space-x-2">
+                            <span>Nova Sessão</span>
+                            <ArrowUpRight size={18} />
+                        </Link>
+                    </div>
                 </div>
+
 
                 {/* Level Progress */}
                 <div className="space-y-2">
