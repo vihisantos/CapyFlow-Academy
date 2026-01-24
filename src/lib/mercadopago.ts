@@ -1,35 +1,19 @@
-export const MP_ACCESS_TOKEN = 'APP_USR-6f437e41-74ae-45ae-9d60-1b95bde8262b';
+// MOCK IMPLEMENTATION DUE TO CORS LIMITATIONS ON GITHUB PAGES
+// The real Mercado Pago API does not support client-side calls from static sites.
 
 export async function createPreference() {
-    try {
-        const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${MP_ACCESS_TOKEN}`
-            },
-            body: JSON.stringify({
-                items: [
-                    {
-                        title: 'CapyFlow Academy PRO',
-                        quantity: 1,
-                        currency_id: 'BRL',
-                        unit_price: 29.90
-                    }
-                ],
-                back_urls: {
-                    success: typeof window !== 'undefined' ? `${window.location.origin}/dashboard?status=approved` : 'http://localhost:3000/dashboard?status=approved',
-                    failure: typeof window !== 'undefined' ? `${window.location.origin}/dashboard?status=failure` : 'http://localhost:3000/dashboard?status=failure',
-                    pending: typeof window !== 'undefined' ? `${window.location.origin}/dashboard?status=pending` : 'http://localhost:3000/dashboard?status=pending'
-                },
-                auto_return: 'approved'
-            })
-        });
+    // Determine the correct path handling explicitly for GitHub Pages
+    // We can use a relative path if we leverage the Next.js router, but since this is an "external" link...
+    // Let's assume public folder root.
 
-        const data = await response.json();
-        return data.init_point; // URL to redirect
-    } catch (error) {
-        console.error("Error creating preference:", error);
-        return null;
-    }
+    // Logic to detect base path
+    const isProd = typeof window !== 'undefined' && window.location.hostname !== 'localhost';
+    const basePath = isProd ? '/CapyFlow-Academy' : '';
+
+    // Simulate API delay
+    await new Promise(r => setTimeout(r, 800));
+
+    // Return URL to our local Mock Checkout
+    return `${window.location.origin}${basePath}/checkout.html`;
 }
+
