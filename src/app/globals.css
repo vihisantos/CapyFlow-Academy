@@ -175,10 +175,12 @@ body {
 .text-gradient {
   background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% auto;
   animation: shine 4s linear infinite;
 }
+
 
 @keyframes shine {
   to {
