@@ -32,9 +32,10 @@ export default function ThemeStore() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6"
+                        className="bg-linear-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6"
                     >
                         <div className="flex items-center gap-4">
+
                             <div className="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center">
                                 <Lock className="text-yellow-400" />
                             </div>
