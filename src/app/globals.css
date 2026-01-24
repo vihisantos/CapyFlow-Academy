@@ -1,91 +1,131 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: var(--background);
+  --color-background: var(--bg-color);
   --color-foreground: var(--foreground);
-  --color-primary: #38bdf8;
-  --color-secondary: #818cf8;
-  --color-accent: #f472b6;
-  --color-border: rgba(255, 255, 255, 0.08);
-
-  --shadow-glow-cyan: 0 0 20px rgba(56, 189, 248, 0.2);
-  --shadow-glow-pink: 0 0 20px rgba(244, 114, 182, 0.2);
+  --color-surface: var(--surface-color);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
 }
 
-@layer base {
+/* 
+  Tailwind v4 Theme Engine 
+  Using native CSS variables for dynamic switching
+*/
 
-  /* Default Theme (Cyber Noir) */
-  :root,
-  :root[data-theme="cyber-noir"] {
-    --bg-color: 2 6 23;
-    /* slate-950 */
-    --surface-color: 15 23 42;
-    /* slate-900 */
-    --primary: 34 211 238;
-    /* cyan-400 */
-    --secondary: 168 85 247;
-    /* purple-500 */
-    --accent: 244 114 182;
-    /* pink-400 */
-    --foreground: 248 250 252;
-    /* slate-50 */
-  }
-
-  /* Matrix Theme */
-  :root[data-theme="matrix"] {
-    --bg-color: 0 0 0;
-    --surface-color: 20 20 20;
-    --primary: 74 222 128;
-    /* green-400 */
-    --secondary: 34 197 94;
-    /* green-500 */
-    --accent: 22 163 74;
-    /* green-600 */
-    --foreground: 220 252 231;
-    /* green-50 */
-  }
-
-  /* Dracula Theme */
-  :root[data-theme="dracula"] {
-    --bg-color: 40 42 54;
-    --surface-color: 68 71 90;
-    --primary: 255 121 198;
-    /* pink */
-    --secondary: 189 147 249;
-    /* purple */
-    --accent: 255 184 108;
-    /* orange */
-    --foreground: 248 248 242;
-  }
-
-  /* Synthwave Theme */
-  :root[data-theme="synthwave"] {
-    --bg-color: 44 0 62;
-    --surface-color: 88 28 135;
-    --primary: 244 114 182;
-    /* pink-400 */
-    --secondary: 250 204 21;
-    /* yellow-400 */
-    --accent: 59 130 246;
-    /* blue-500 */
-    --foreground: 255 255 255;
-  }
+/* Default Theme (Cyber Noir) */
+:root {
+  --bg-color: #020617;
+  /* slate-950 */
+  --surface-color: #0f1742;
+  /* slate-900 */
+  --primary: #22d3ee;
+  /* cyan-400 */
+  --secondary: #a855f7;
+  /* purple-500 */
+  --accent: #f472b6;
+  /* pink-400 */
+  --foreground: #f8fafc;
+  /* slate-50 */
 }
 
-
-@layer base {
-  body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-    selection-background-color: var(--primary);
-    selection-color: var(--background);
-  }
+/* Matrix Theme */
+:root[data-theme="matrix"] {
+  --bg-color: #000000;
+  --surface-color: #141414;
+  --primary: #4ade80;
+  /* green-400 */
+  --secondary: #22c55e;
+  /* green-500 */
+  --accent: #16a34a;
+  /* green-600 */
+  --foreground: #dcfce7;
+  /* green-50 */
 }
 
+/* Dracula Theme */
+:root[data-theme="dracula"] {
+  --bg-color: #282a36;
+  --surface-color: #44475a;
+  --primary: #ff79c6;
+  /* pink */
+  --secondary: #bd93f9;
+  /* purple */
+  --accent: #ffb86c;
+  /* orange */
+  --foreground: #f8f8f2;
+}
+
+/* Synthwave Theme */
+:root[data-theme="synthwave"] {
+  --bg-color: #2c003e;
+  --surface-color: #581c87;
+  --primary: #f472b6;
+  /* pink-400 */
+  --secondary: #facc15;
+  /* yellow-400 */
+  --accent: #3b82f6;
+  /* blue-500 */
+  --foreground: #ffffff;
+}
+
+/* Naruto Theme */
+:root[data-theme="naruto"] {
+  --bg-color: #0c0a09;
+  /* stone-950 (darker) */
+  --surface-color: #1c1917;
+  /* stone-900 */
+  --primary: #f97316;
+  /* orange-500 */
+  --secondary: #ea580c;
+  /* orange-600 */
+  --accent: #000000;
+  --foreground: #ffedd5;
+  /* orange-50 */
+}
+
+/* DBZ Theme */
+:root[data-theme="dbz"] {
+  --bg-color: #172554;
+  /* blue-950 */
+  --surface-color: #1e3a8a;
+  /* blue-900 */
+  --primary: #fbbf24;
+  /* amber-400 */
+  --secondary: #3b82f6;
+  /* blue-500 */
+  --accent: #ef4444;
+  /* red-500 */
+  --foreground: #ffffff;
+}
+
+/* Eva Theme */
+:root[data-theme="eva"] {
+  --bg-color: #2e1065;
+  /* purple-950 */
+  --surface-color: #581c87;
+  /* purple-800 */
+  --primary: #a855f7;
+  /* purple-500 */
+  --secondary: #4ade80;
+  /* green-400 */
+  --accent: #f97316;
+  /* orange */
+  --foreground: #e2e8f0;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--bg-color);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Utility Classes for Glassmorphism & Cyber Aesthetics */
 .glass {
-  background: rgba(15, 23, 42, 0.6);
+  background: color-mix(in srgb, var(--surface-color), transparent 40%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -97,9 +137,9 @@
 }
 
 .glass-hover:hover {
-  background: rgba(15, 23, 42, 0.8);
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: var(--shadow-glow-cyan);
+  background: color-mix(in srgb, var(--surface-color), transparent 20%);
+  border-color: color-mix(in srgb, var(--primary), transparent 70%);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--primary), transparent 80%);
 }
 
 .cyber-btn {
@@ -108,6 +148,8 @@
   transition: all 0.3s ease;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--bg-color);
+  /* Contrast text */
 }
 
 .cyber-btn::before {
@@ -117,10 +159,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: 0.5s;
 }
 
@@ -129,12 +168,12 @@
 }
 
 .cyber-btn:hover {
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--primary), transparent 60%);
   transform: translateY(-2px);
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
+  background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% auto;
@@ -145,12 +184,4 @@
   to {
     background-position: 200% center;
   }
-}
-
-.glow-mesh {
-  background-image:
-    radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(129, 140, 248, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(244, 114, 182, 0.1) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
 }
