@@ -1,4 +1,4 @@
-:HL["/CapyFlow-Academy/_next/static/chunks/16e7376dc6858d42.css","style"]
+:HL["/CapyFlow-Academy/_next/static/chunks/e599787dd94eb127.css","style"]
 :HL["/CapyFlow-Academy/_next/static/media/797e433ab948586e-s.p.dbea232f.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/CapyFlow-Academy/_next/static/media/caa3a2e1cccd8315-s.p.853070df.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"buildId":"ci90ygi6cd08QUBxI8XBU","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"cadastro","paramType":null,"paramKey":"cadastro","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"qzbLf1Z7dS9Ywlbx1JiQ4","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"cadastro","paramType":null,"paramKey":"cadastro","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
