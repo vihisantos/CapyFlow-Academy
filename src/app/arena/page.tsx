@@ -1,11 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import Arena from "@/components/Arena";
+import dynamic from "next/dynamic";
 import ChallengeSelect from "@/components/ChallengeSelect";
 import { Snippet } from "@/lib/snippets";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+
+// Lazy Load Arena (Monaco Editor is heavy)
+const Arena = dynamic(() => import("@/components/Arena"), {
+    loading: () => <div className="h-[500px] glass rounded-2xl animate-pulse flex items-center justify-center text-gray-500">Carregando Editor...</div>,
+    ssr: false // Editor triggers browser-only logic usually
+});
+
 
 export default function ArenaPage() {
     const [selectedSnippet, setSelectedSnippet] = useState<Snippet | null>(null);

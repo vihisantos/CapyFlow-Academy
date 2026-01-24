@@ -16,7 +16,8 @@ export default function Home() {
       {/* Header / Nav */}
       <nav className="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-50">
         <div className="text-2xl font-bold italic tracking-tighter">
-          Capy<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Flow</span>
+          Capy<span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">Flow</span>
+
         </div>
 
         {user ? (

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,10 +12,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#020617",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "CapyFlow Academy - Domine o Código",
-  description: "Plataforma gamificada para acelerar seu aprendizado em desenvolvimento de software.",
+  description: "Plataforma gamificada para acelerar seu aprendizado em desenvolvimento de software. Pratique digitando código real de projetos open-source.",
+  manifest: "/manifest.json",
+  openGraph: {
+    title: "CapyFlow Academy",
+    description: "Acelere seu aprendizado de código com gamificação.",
+    url: "https://vihisantos.github.io/CapyFlow-Academy/",
+    siteName: "CapyFlow Academy",
+    images: [
+      {
+        url: "https://vihisantos.github.io/CapyFlow-Academy/logo.jpg",
+        width: 512,
+        height: 512,
+      },
+    ],
+    locale: "pt_BR",
+    type: "website",
+  },
 };
+
+
 
 
 import { AuthProvider } from "@/hooks/useAuth";

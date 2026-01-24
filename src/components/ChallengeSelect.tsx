@@ -41,7 +41,8 @@ export default function ChallengeSelect({ onSelect }: ChallengeSelectProps) {
                                     whileHover={{ scale: 1.02, translateY: -5 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => onSelect(snippet)}
-                                    className={`glass p-6 rounded-2xl border text-left group transition-all relative overflow-hidden ${isCompleted ? 'border-cyan-500/40 bg-cyan-500/[0.05]' : 'border-white/5 hover:border-cyan-500/30 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)]'
+                                    className={`glass p-6 rounded-2xl border text-left group transition-all relative overflow-hidden ${isCompleted ? 'border-cyan-500/40 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/30 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)]'
+
                                         }`}
                                 >
                                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
