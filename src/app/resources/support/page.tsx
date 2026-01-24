@@ -2,8 +2,42 @@
 
 import Link from 'next/link';
 import { ArrowLeft, LifeBuoy, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
 
 export default function SupportPage() {
+
+
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const form = e.currentTarget;
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch("https://formspree.io/f/xnjnozgn", {
+                method: "POST",
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                setSuccess(true);
+                form.reset();
+            } else {
+                alert("Ocorreu um erro. Tente novamente.");
+            }
+        } catch (error) {
+            alert("Erro de conexão.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-background text-foreground p-8 pb-32">
@@ -44,17 +78,29 @@ export default function SupportPage() {
                                 Nossa equipe de capivaras (humanos) responde em até 24h úteis.
                             </p>
 
-                            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Mensagem enviada! (Simulação)"); }}>
-                                <input type="email" placeholder="Seu email" className="w-full p-3 rounded-lg bg-background border border-white/10 focus:border-primary text-white outline-none" required />
-                                <textarea placeholder="Como podemos ajudar?" rows={4} className="w-full p-3 rounded-lg bg-background border border-white/10 focus:border-primary text-white outline-none" required></textarea>
-                                <button className="w-full py-3 cyber-btn rounded-lg font-bold">Enviar Mensagem</button>
-                            </form>
+                            {success ? (
+                                <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-xl text-center animate-in fade-in slide-in-from-bottom-4">
+                                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                                    <h4 className="font-bold text-white">Mensagem Recebida!</h4>
+                                    <p className="text-sm text-gray-300 mt-2">Nossa equipe entrará em contato em breve.</p>
+                                    <button onClick={() => setSuccess(false)} className="mt-4 text-xs text-primary hover:underline">Enviar outra</button>
+                                </div>
+                            ) : (
+                                <form className="space-y-4" onSubmit={handleSubmit}>
+                                    <input name="email" type="email" placeholder="Seu email" className="w-full p-3 rounded-lg bg-background border border-white/10 focus:border-primary text-white outline-none" required />
+                                    <textarea name="message" placeholder="Como podemos ajudar?" rows={4} className="w-full p-3 rounded-lg bg-background border border-white/10 focus:border-primary text-white outline-none" required></textarea>
+                                    <button disabled={loading} className="w-full py-3 cyber-btn rounded-lg font-bold disabled:opacity-50">
+                                        {loading ? 'Enviando...' : 'Enviar Mensagem'}
+                                    </button>
+                                </form>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     );
+
 }
 
 function FAQItem({ q, a }: { q: string, a: string }) {
