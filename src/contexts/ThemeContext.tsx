@@ -17,18 +17,32 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+    // Fix: Initialize with default values to avoid Hydration Error (server vs client mismatch)
     const [theme, setThemeState] = useState<ThemeId>('cyber-noir');
     const [isPro, setIsPro] = useState(false);
     const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        // Load from storage
+        setMounted(true);
+        // Load from storage only on client side
         const savedTheme = localStorage.getItem('capy_theme') as ThemeId;
         const savedPro = localStorage.getItem('capy_pro') === 'true';
 
-        if (savedTheme) setThemeState(savedTheme);
+        if (savedTheme) {
+            setThemeState(savedTheme);
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else {
+            document.documentElement.setAttribute('data-theme', 'cyber-noir');
+        }
+
         if (savedPro) setIsPro(true);
     }, []);
+
+    // Avoid rendering children until mounted to prevent hydration mismatch if theme affects layout significantly?
+    // Actually, for theme *attributes* on html/body we need to be careful.
+    // But since we apply data-theme in useEffect, initial render is consistent (default).
+
 
     const setTheme = (newTheme: ThemeId) => {
         // Guard: Check if Pro is required for non-default themes
@@ -54,10 +68,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    // Ensure theme is applied on initial load
-    useEffect(() => {
-        document.documentElement.setAttribute('data-theme', theme);
-    }, [theme]);
+
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme, isPro, unlockPro, checkoutUrl }}>
