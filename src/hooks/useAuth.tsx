@@ -11,10 +11,12 @@ interface User extends UserProfile {
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    login: (email: string, password: string) => Promise<void>; // Password ignored for local demo
     register: (email: string, password: string, displayName: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
+    updateProfile: (data: Partial<UserProfile>) => void;
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -69,11 +71,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
     };
 
+    const updateProfile = (data: Partial<UserProfile>) => {
+        if (!user) return;
+        const updatedUser = { ...user, ...data };
+        Storage.saveUser(updatedUser);
+        setUser(updatedUser);
+    };
+
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, updateProfile }}>
             {children}
         </AuthContext.Provider>
     );
+
 }
 
 export function useAuth() {

@@ -2,9 +2,9 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Storage } from '@/lib/storage';
+import { useAuth } from '@/hooks/useAuth';
 
 export type ThemeId = 'cyber-noir' | 'matrix' | 'dracula' | 'synthwave' | 'naruto' | 'dbz' | 'eva';
-
 
 interface ThemeContextType {
     theme: ThemeId;
@@ -19,15 +19,20 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Fix: Initialize with default values to avoid Hydration Error (server vs client mismatch)
     const [theme, setThemeState] = useState<ThemeId>('cyber-noir');
-    const [isPro, setIsPro] = useState(false);
     const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
 
+    // Auth Integration for User-Specific Pro Status
+    const { user, updateProfile } = useAuth();
+    const isPro = !!user?.isPro; // Derived State from User Profile
+
     useEffect(() => {
         setMounted(true);
-        // Load from storage only on client side
+        // Load only THEME from storage (theme is arguably global device pref, but better per user? 
+        // User asked for PRO to be per user. Let's start with Theme being local device pref first for simplicity, 
+        // or migrate theme to user profile too? Let's stick to fixing PRO first as requested).
+
         const savedTheme = localStorage.getItem('capy_theme') as ThemeId;
-        const savedPro = localStorage.getItem('capy_pro') === 'true';
 
         if (savedTheme) {
             setThemeState(savedTheme);
@@ -35,14 +40,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         } else {
             document.documentElement.setAttribute('data-theme', 'cyber-noir');
         }
-
-        if (savedPro) setIsPro(true);
     }, []);
-
-    // Avoid rendering children until mounted to prevent hydration mismatch if theme affects layout significantly?
-    // Actually, for theme *attributes* on html/body we need to be careful.
-    // But since we apply data-theme in useEffect, initial render is consistent (default).
-
 
     const setTheme = (newTheme: ThemeId) => {
         // Guard: Check if Pro is required for non-default themes
@@ -59,16 +57,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
 
     const unlockPro = () => {
+        if (!user) {
+            alert("Faça login ou crie uma conta para virar PRO!");
+            return;
+        }
+
         // Mock Payment Flow for GitHub Pages
         const confirm = window.confirm("Você será redirecionado para o Mercado Pago (Simulação). Confirmar pagamento?");
         if (confirm) {
-            setIsPro(true);
-            localStorage.setItem('capy_pro', 'true');
-            alert("Pagamento Aprovado! Você agora é PRO! 🏆");
+            // Update User Profile via Auth Context (Persists to capy_user specifically)
+            updateProfile({ isPro: true });
+
+            // Cleanup legacy global key if exists
+            localStorage.removeItem('capy_pro');
+
+            alert("Pagamento Aprovado! Você agora é PRO! 🏆 (Status salvo no seu perfil)");
         }
     };
-
-
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme, isPro, unlockPro, checkoutUrl }}>

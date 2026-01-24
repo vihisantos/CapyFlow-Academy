@@ -5,7 +5,9 @@ export interface UserProfile {
     displayName: string;
     photoURL?: string;
     joinedAt: number;
+    isPro?: boolean;
 }
+
 
 export interface GameStats {
     xp: number;
