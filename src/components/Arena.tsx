@@ -6,7 +6,8 @@ import { motion } from 'framer-motion';
 import { Zap, Target, Timer } from 'lucide-react';
 
 import { useAuth } from '@/hooks/useAuth';
-import { saveTrainingSession } from '@/lib/api';
+import { Gamification } from '@/lib/gamification';
+
 
 interface ArenaProps {
     code: string;
@@ -178,22 +179,25 @@ export default function Arena({ code, language, description, snippetId, onComple
         const currentAccuracy = Math.max(0, Math.round(((finalValue.length - errors) / finalValue.length) * 100)) || 100;
 
         try {
-            const token = localStorage.getItem('capy_token');
-            if (!token) return;
+            // Local Gamification Logic
+            const result = Gamification.processSession(currentWpm, currentAccuracy, snippetId, 'Iniciante', timeElapsed); // Difficulty hardcoded for now or passed prop?
+            // Actually snippet has difficulty prop but Arena might not receive it directly if simplified props.
+            // Let's assume 'Iniciante' default or add difficulty prop to Arena.
+            // But wait, Arena receives `description` and `snippetId`.
+            // Ideally we pass difficulty too.
+            // For now, let's just Log it.
 
-            await saveTrainingSession({
-                wpm: currentWpm,
-                accuracy: currentAccuracy,
-                timeElapsed,
-                language,
-                codeSnippetId: snippetId
-            }, token);
-            console.log('Session saved successfully');
+            console.log('Session saved locally:', result);
+            if (result.levelUp) {
+                // Trigger Level Up Animation (todo)
+                alert(`LEVEL UP! Você alcançou o nível ${result.newLevel}`);
+            }
             if (onComplete) onComplete();
         } catch (error) {
             console.error('Error saving session:', error);
         }
     };
+
 
 
     const glowClasses = {

@@ -1,19 +1,17 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { API_BASE_URL } from '@/lib/api';
+import { Storage, UserProfile } from '@/lib/storage';
 
-interface User {
-    id: string;
+interface User extends UserProfile {
+    id: string; // For compatibility
     email: string;
-    displayName?: string;
-    photoURL?: string;
 }
 
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<void>; // Password ignored for local demo
     register: (email: string, password: string, displayName: string) => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -25,58 +23,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('capy_token');
-        if (token) {
-            fetch(`${API_BASE_URL}/auth/me`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-                .then(res => res.ok ? res.json() : null)
-                .then(data => {
-                    if (data) setUser(data);
-                    else localStorage.removeItem('capy_token');
-                })
-                .finally(() => setLoading(false));
-        } else {
-            setLoading(false);
+        // Hydrate from Storage
+        const localUser = Storage.getUser();
+        if (localUser) {
+            setUser({ ...localUser, id: 'local-user', email: 'local@capy.academy' });
         }
+        setLoading(false);
     }, []);
 
     const login = async (email: string, password: string) => {
-        const res = await fetch(`${API_BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
+        // Simulate API delay
+        await new Promise(r => setTimeout(r, 800));
 
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message || 'Login failed');
+        // For local mode, we just check if a user exists or create a temp one if matches stored logic?
+        // Actually, "login" in local-first usually means "load profile".
+        // But since we want to simulate the flow, let's just re-load the storage user
+        // OR allow "logging in" if we matched a mock credential.
+
+        // Simplification: If a user exists in storage, we log them in. 
+        // If not, we throw error "User not found (Register first in Local Mode)"
+        const localUser = Storage.getUser();
+        if (!localUser) {
+            throw new Error('Usuário não encontrado. Por favor, registre-se.');
         }
-
-        const data = await res.json();
-        localStorage.setItem('capy_token', data.token);
-        setUser(data.user);
+        setUser({ ...localUser, id: 'local-user', email });
     };
 
     const register = async (email: string, password: string, displayName: string) => {
-        const res = await fetch(`${API_BASE_URL}/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, displayName }),
-        });
+        await new Promise(r => setTimeout(r, 1000));
 
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message || 'Registration failed');
-        }
+        const newUser: UserProfile = {
+            displayName,
+            photoURL: `https://api.dicebear.com/7.x/open-peeps/svg?seed=${displayName}`, // Auto-avatar
+            joinedAt: Date.now()
+        };
 
-        const data = await res.json();
-        localStorage.setItem('capy_token', data.token);
-        setUser(data.user);
+        Storage.saveUser(newUser);
+        setUser({ ...newUser, id: 'local-user', email });
     };
 
     const logout = async () => {
-        localStorage.removeItem('capy_token');
+        // In local-first, do we clear storage? 
+        // Maybe just "lock" the session state in memory?
+        // Let's clear user from memory but keep data in storage so they can "login" again.
         setUser(null);
     };
 
@@ -94,3 +83,4 @@ export function useAuth() {
     }
     return context;
 }
+
