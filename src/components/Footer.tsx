@@ -41,10 +41,10 @@ export default function Footer() {
                         <div>
                             <h4 className="font-bold text-white mb-6">Recursos</h4>
                             <ul className="space-y-4 text-sm text-gray-400">
-                                <li><a href="#" className="hover:text-primary transition-colors">Documentação</a></li>
-                                <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
-                                <li><a href="#" className="hover:text-primary transition-colors">Comunidade</a></li>
-                                <li><a href="#" className="hover:text-primary transition-colors">Suporte</a></li>
+                                <li><Link href="/resources/docs" className="hover:text-primary transition-colors">Documentação</Link></li>
+                                <li><Link href="/resources/blog" className="hover:text-primary transition-colors">Blog</Link></li>
+                                <li><Link href="/resources/community" className="hover:text-primary transition-colors">Comunidade</Link></li>
+                                <li><Link href="/resources/support" className="hover:text-primary transition-colors">Suporte</Link></li>
                             </ul>
                         </div>
 
@@ -52,11 +52,12 @@ export default function Footer() {
                         <div>
                             <h4 className="font-bold text-white mb-6">Legal</h4>
                             <ul className="space-y-4 text-sm text-gray-400">
-                                <li><a href="#" className="hover:text-primary transition-colors">Termos de Uso</a></li>
-                                <li><a href="#" className="hover:text-primary transition-colors">Privacidade</a></li>
-                                <li><a href="#" className="hover:text-primary transition-colors">Cookies</a></li>
+                                <li><Link href="/legal/terms" className="hover:text-primary transition-colors">Termos de Uso</Link></li>
+                                <li><Link href="/legal/privacy" className="hover:text-primary transition-colors">Privacidade</Link></li>
+                                <li><Link href="/legal/cookies" className="hover:text-primary transition-colors">Cookies</Link></li>
                             </ul>
                         </div>
+
                     </div>
 
                     {/* Bottom Bar */}
