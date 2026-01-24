@@ -211,27 +211,29 @@ export default function Arena({ code, language, description, snippetId, onComple
 
 
     const glowClasses = {
-        cyan: 'border-cyan-500/20 shadow-[0_0_30px_rgba(34,211,238,0.1)]',
+        cyan: 'border-primary/20 shadow-[0_0_30px_rgba(var(--primary),0.1)]',
 
-        purple: 'border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.2)]',
-        red: 'border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.2)]',
+        purple: 'border-secondary/30 shadow-[0_0_40px_rgba(var(--secondary),0.2)]',
+        red: 'border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.2)]', // Red usually indicates error, keep as is? Or mapped to error color?
     };
 
     const textColors = {
-        cyan: 'text-cyan-400',
+        cyan: 'text-primary',
 
-        purple: 'text-purple-400',
+        purple: 'text-secondary',
         red: 'text-red-400',
     };
+
 
     return (
         <div className="w-full max-w-6xl mx-auto space-y-6">
             <div className={`flex justify-between items-center mb-8 glass p-6 rounded-2xl border transition-all duration-500 ${glowClasses[glowColor as keyof typeof glowClasses]}`}>
                 <div className="flex space-x-8">
                     <MetricItem icon={<Timer className={textColors[glowColor as keyof typeof textColors]} />} label="Tempo" value={startTime ? `${Math.floor((Date.now() - startTime) / 1000)}s` : "0s"} />
-                    <MetricItem icon={<Zap className="text-yellow-400" />} label="WPM" value={wpm.toString()} />
-                    <MetricItem icon={<Target className="text-blue-400" />} label="Precisão" value={`${accuracy}%`} />
+                    <MetricItem icon={<Zap className="text-accent" />} label="WPM" value={wpm.toString()} />
+                    <MetricItem icon={<Target className="text-primary" />} label="Precisão" value={`${accuracy}%`} />
                 </div>
+
 
                 {/* Combo Counter */}
                 <div className="flex flex-col items-end">
@@ -300,9 +302,10 @@ export default function Arena({ code, language, description, snippetId, onComple
                     animate={{ opacity: 1, scale: 1 }}
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
                 >
-                    <div className="glass p-12 rounded-3xl border border-purple-500/30 text-center max-w-md w-full">
-                        <div className="w-20 h-20 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Zap className="text-purple-400 w-10 h-10 fill-current" />
+                    <div className="glass p-12 rounded-3xl border border-secondary/30 text-center max-w-md w-full">
+
+                        <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Zap className="text-secondary w-10 h-10 fill-current" />
 
                         </div>
                         <h2 className="text-4xl font-bold mb-4">Elite Performance!</h2>
@@ -310,7 +313,7 @@ export default function Arena({ code, language, description, snippetId, onComple
 
                         {description && (
                             <div className="mb-8 p-4 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300 text-left">
-                                <span className="text-purple-400 font-bold block mb-1">Knowledge Drop:</span>
+                                <span className="text-secondary font-bold block mb-1">Knowledge Drop:</span>
 
                                 {description}
                             </div>
@@ -319,14 +322,15 @@ export default function Arena({ code, language, description, snippetId, onComple
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                                 <div className="text-sm text-gray-400">WPM</div>
-                                <div className="text-2xl font-bold text-cyan-400">{wpm}</div>
+                                <div className="text-2xl font-bold text-primary">{wpm}</div>
                             </div>
 
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                                 <div className="text-sm text-gray-400">Precisão</div>
-                                <div className="text-2xl font-bold text-blue-400">{accuracy}%</div>
+                                <div className="text-2xl font-bold text-accent">{accuracy}%</div>
                             </div>
                         </div>
+
                         <button
                             onClick={() => window.location.reload()}
                             className="w-full py-4 capy-gradient rounded-xl font-bold text-lg hover:scale-105 transition-transform"
