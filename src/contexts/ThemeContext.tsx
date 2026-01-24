@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Storage } from '@/lib/storage';
 import { useAuth } from '@/hooks/useAuth';
+import { createPreference } from '@/lib/mercadopago';
+
 
 export type ThemeId = 'cyber-noir' | 'matrix' | 'dracula' | 'synthwave' | 'naruto' | 'dbz' | 'eva';
 
@@ -25,13 +27,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Auth Integration for User-Specific Pro Status
     const { user, updateProfile } = useAuth();
     const isPro = !!user?.isPro; // Derived State from User Profile
+    const prevUserRef = React.useRef(user);
 
     useEffect(() => {
         setMounted(true);
-        // Load only THEME from storage (theme is arguably global device pref, but better per user? 
-        // User asked for PRO to be per user. Let's start with Theme being local device pref first for simplicity, 
-        // or migrate theme to user profile too? Let's stick to fixing PRO first as requested).
-
         const savedTheme = localStorage.getItem('capy_theme') as ThemeId;
 
         if (savedTheme) {
@@ -40,7 +39,30 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         } else {
             document.documentElement.setAttribute('data-theme', 'cyber-noir');
         }
-    }, []);
+
+        // Check for Payment Success in URL
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            const status = params.get('status');
+            if (status === 'approved' && user && !user.isPro) {
+                // Payment Successful! Unlock Pro.
+                updateProfile({ isPro: true });
+                alert("🎉 Pagamento Confirmado! Bem-vindo ao CapyFlow PRO! 🏆");
+                // Clean URL
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+        }
+    }, [user]);
+
+    // Effect: Reset theme on Logout (User -> Null transition)
+    useEffect(() => {
+        if (prevUserRef.current && !user) {
+            setThemeState('cyber-noir');
+            localStorage.setItem('capy_theme', 'cyber-noir');
+            document.documentElement.setAttribute('data-theme', 'cyber-noir');
+        }
+        prevUserRef.current = user;
+    }, [user]);
 
     const setTheme = (newTheme: ThemeId) => {
         // Guard: Check if Pro is required for non-default themes
@@ -56,22 +78,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         document.documentElement.setAttribute('data-theme', newTheme);
     };
 
-    const unlockPro = () => {
+    const unlockPro = async () => {
         if (!user) {
             alert("Faça login ou crie uma conta para virar PRO!");
             return;
         }
 
-        // Mock Payment Flow for GitHub Pages
-        const confirm = window.confirm("Você será redirecionado para o Mercado Pago (Simulação). Confirmar pagamento?");
+        // Real Checkout
+        const confirm = window.confirm("Você será redirecionado para o Mercado Pago para finalizar a compra segura. Vamos lá?");
         if (confirm) {
-            // Update User Profile via Auth Context (Persists to capy_user specifically)
-            updateProfile({ isPro: true });
-
-            // Cleanup legacy global key if exists
-            localStorage.removeItem('capy_pro');
-
-            alert("Pagamento Aprovado! Você agora é PRO! 🏆 (Status salvo no seu perfil)");
+            const url = await createPreference();
+            if (url) {
+                window.location.href = url;
+            } else {
+                alert("Erro ao conectar com Mercado Pago. Tente novamente.");
+            }
         }
     };
 
