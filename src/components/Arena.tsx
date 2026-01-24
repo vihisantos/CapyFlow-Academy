@@ -22,9 +22,11 @@ export default function Arena({ code, language, description, snippetId, onComple
     const [startTime, setStartTime] = useState<number | null>(null);
     const [wpm, setWpm] = useState(0);
     const [accuracy, setAccuracy] = useState(100);
+    const [combo, setCombo] = useState(0);
+    const [maxCombo, setMaxCombo] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     const [isIdle, setIsIdle] = useState(false);
-    const [glowColor, setGlowColor] = useState('emerald');
+    const [glowColor, setGlowColor] = useState('cyan');
 
     const editorRef = useRef<any>(null);
     const idleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -40,27 +42,12 @@ export default function Arena({ code, language, description, snippetId, onComple
 
     useEffect(() => {
         // Dynamic HUD color based on accuracy
-        if (accuracy > 95) setGlowColor('emerald');
-        else if (accuracy > 80) setGlowColor('yellow');
+        if (accuracy > 95) setGlowColor('cyan');
+        else if (accuracy > 80) setGlowColor('purple');
         else setGlowColor('red');
     }, [accuracy]);
 
-    useEffect(() => {
-        if (isFinished) return;
-
-        const resetIdle = () => {
-            setIsIdle(false);
-            if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
-            idleTimeoutRef.current = setTimeout(() => {
-                if (startTime && !isFinished) setIsIdle(true);
-            }, 3000);
-        };
-
-        resetIdle();
-        return () => {
-            if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current);
-        };
-    }, [userInput, startTime, isFinished]);
+    // ... idle effect ...
 
     const calculateMetrics = () => {
         if (!startTime) return;
@@ -87,10 +74,11 @@ export default function Arena({ code, language, description, snippetId, onComple
         const ranges: { start: number, end: number }[] = [];
         let regex;
         if (language === 'javascript' || language === 'typescript') {
-            // Include newline in line comments
             regex = /\/\/.*(?:\r?\n|$ )|\/\*[\s\S]*?\*\//g;
-        } else if (language === 'python' || language === 'sql') {
+        } else if (language === 'python' || language === 'sql' || language === 'ruby') {
             regex = /#.*(?:\r?\n|$ )|--.*(?:\r?\n|$ )/g;
+        } else if (language === 'java' || language === 'cpp' || language === 'c' || language === 'csharp' || language === 'go' || language === 'rust') {
+            regex = /\/\/.*(?:\r?\n|$ )|\/\*[\s\S]*?\*\//g;
         }
 
         if (regex) {
@@ -108,6 +96,27 @@ export default function Arena({ code, language, description, snippetId, onComple
             setStartTime(Date.now());
         }
 
+        // Combo Logic
+        if (value.length > userInput.length) {
+            const charTyped = value[value.length - 1];
+            // Approximate check: if the typed char matches the code at the new position
+            // We need to account for auto-filled comments, but for raw combo feel, 
+            // checking if the new string matches the code prefix is safer.
+            // However, snippet logic skips comments!
+            // Let's use a simpler heuristic for visual combo:
+            // If the *entire* typed value matches the beginning of the code (ignoring comments logic for a sec OR relying on how value is constructed)
+
+            // Actually, handleInputChange builds the value. 
+            // If we are strictly typing correct chars, value === code.substring(0, value.length).
+            // But complex logic helps skip comments.
+
+            // Let's calculate simple correctness for combo *after* processing below?
+            // No, needs to be instant.
+
+            // Let's just assume if the user typed ANY char and it wasn't blocked/wrong visual, success?
+            // No, let's use the resulting `finalValue` (below) logic.
+        }
+
         let currentPos = userInput.length;
         const charTyped = value[value.length - 1];
         let autoFilledPrefix = '';
@@ -121,31 +130,37 @@ export default function Arena({ code, language, description, snippetId, onComple
                 const charStartOfComment = code[currentPos];
                 const charAfterComment = code[commentAtPos.end];
 
-                // If user didn't type the comment start, but typed the char AFTER the comment
                 if (charTyped !== charStartOfComment && charTyped === charAfterComment) {
                     autoFilledPrefix += code.substring(currentPos, commentAtPos.end);
                     currentPos = commentAtPos.end;
-                    continue; // Check if there's another comment right after
+                    continue;
                 }
             }
             break;
         }
 
+        let finalValue = value;
         if (autoFilledPrefix) {
-            const finalValue = userInput + autoFilledPrefix + charTyped;
-            setUserInput(finalValue);
-            if (finalValue === code) {
-                setIsFinished(true);
-                handleFinish(finalValue);
-            }
-            return;
+            finalValue = userInput + autoFilledPrefix + charTyped;
         }
 
-        setUserInput(value);
+        // COMBO CALCULATION
+        const isCorrectSoFar = finalValue === code.substring(0, finalValue.length);
+        if (isCorrectSoFar && finalValue.length > userInput.length) {
+            setCombo(c => {
+                const newC = c + 1;
+                if (newC > maxCombo) setMaxCombo(newC);
+                return newC;
+            });
+        } else if (!isCorrectSoFar) {
+            setCombo(0);
+        }
 
-        if (value === code) {
+        setUserInput(finalValue);
+
+        if (finalValue === code) {
             setIsFinished(true);
-            handleFinish(value);
+            handleFinish(finalValue);
         }
     };
 
@@ -156,7 +171,6 @@ export default function Arena({ code, language, description, snippetId, onComple
         const wordsTyped = finalValue.length / 5;
         const currentWpm = Math.round(wordsTyped / (timeElapsed / 60)) || 0;
 
-        // Final accuracy calculation
         let errors = 0;
         for (let i = 0; i < finalValue.length; i++) {
             if (finalValue[i] !== code[i]) errors++;
@@ -181,25 +195,37 @@ export default function Arena({ code, language, description, snippetId, onComple
         }
     };
 
+
     const glowClasses = {
-        emerald: 'border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]',
-        yellow: 'border-yellow-500/20 shadow-[0_0_30px_rgba(234,179,8,0.1)]',
-        red: 'border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.1)]',
+        cyan: 'border-cyan-500/30 shadow-[0_0_40px_rgba(34,211,238,0.2)]',
+        purple: 'border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.2)]',
+        red: 'border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.2)]',
     };
 
     const textColors = {
-        emerald: 'text-emerald-400',
-        yellow: 'text-yellow-400',
+        cyan: 'text-cyan-400',
+        purple: 'text-purple-400',
         red: 'text-red-400',
     };
 
     return (
         <div className="w-full max-w-6xl mx-auto space-y-6">
             <div className={`flex justify-between items-center mb-8 glass p-6 rounded-2xl border transition-all duration-500 ${glowClasses[glowColor as keyof typeof glowClasses]}`}>
-                <MetricItem icon={<Timer className={textColors[glowColor as keyof typeof textColors]} />} label="Tempo" value={startTime ? `${Math.floor((Date.now() - startTime) / 1000)}s` : "0s"} />
-                <MetricItem icon={<Zap className="text-yellow-400" />} label="WPM" value={wpm.toString()} />
-                <MetricItem icon={<Target className="text-blue-400" />} label="Precisão" value={`${accuracy}%`} />
+                <div className="flex space-x-8">
+                    <MetricItem icon={<Timer className={textColors[glowColor as keyof typeof textColors]} />} label="Tempo" value={startTime ? `${Math.floor((Date.now() - startTime) / 1000)}s` : "0s"} />
+                    <MetricItem icon={<Zap className="text-yellow-400" />} label="WPM" value={wpm.toString()} />
+                    <MetricItem icon={<Target className="text-blue-400" />} label="Precisão" value={`${accuracy}%`} />
+                </div>
+
+                {/* Combo Counter */}
+                <div className="flex flex-col items-end">
+                    <div className="text-xs text-gray-400 uppercase tracking-widest font-bold">Combo</div>
+                    <div className={`text-4xl font-black italic tracking-tighter transition-all ${combo > 10 ? 'text-pink-500 scale-110' : 'text-slate-500'}`}>
+                        {combo}x
+                    </div>
+                </div>
             </div>
+
 
             <div className={`relative h-[500px] rounded-2xl overflow-hidden glass border transition-all duration-500 ${glowClasses[glowColor as keyof typeof glowClasses]} ${isIdle ? 'animate-pulse' : ''}`}>
                 {/* Background Code (Monaco) */}

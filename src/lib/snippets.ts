@@ -76,5 +76,46 @@ export const SNIPPETS: Snippet[] = [
         code: 'SELECT u.name, p.title\nFROM users u\nJOIN posts p ON u.id = p.user_id\nWHERE p.published = true;',
         description: 'Combinando dados de duas tabelas diferentes.',
         category: 'Relacionamentos'
+    },
+
+    // RUST
+    {
+        id: 'rust-ownership',
+        language: 'rust',
+        difficulty: 'Intermediário',
+        title: 'Ownership & Borrowing',
+        code: 'fn main() {\n    let s1 = String::from("hello");\n    let len = calculate_length(&s1);\n    println!("The length of \'{}\' is {}.", s1, len);\n}',
+        description: 'Entenda como o Rust gerencia memória sem garbage collector.',
+        category: 'Memória'
+    },
+    // GO
+    {
+        id: 'go-goroutine',
+        language: 'go',
+        difficulty: 'Avançado',
+        title: 'Goroutines Básicas',
+        code: 'package main\nimport ("fmt"; "time")\n\nfunc say(s string) {\n    for i := 0; i < 5; i++ {\n        time.Sleep(100 * time.Millisecond)\n        fmt.Println(s)\n    }\n}',
+        description: 'Concorrência leve e poderosa com Goroutines.',
+        category: 'Concorrência'
+    },
+    // JAVA
+    {
+        id: 'java-stream',
+        language: 'java',
+        difficulty: 'Intermediário',
+        title: 'Stream API',
+        code: 'List<String> names = Arrays.asList("Ana", "Bob", "Charlie");\nnames.stream()\n     .filter(n -> n.startsWith("A"))\n     .map(String::toUpperCase)\n     .forEach(System.out::println);',
+        description: 'Manipulação funcional de coleções com Streams.',
+        category: 'Collections'
+    },
+    // CPP
+    {
+        id: 'cpp-vector',
+        language: 'cpp',
+        difficulty: 'Iniciante',
+        title: 'Vectors e Loops',
+        code: '#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {1, 2, 3, 4};\n    for (int i : v) {\n        std::cout << i << " ";\n    }\n    return 0;\n}',
+        description: 'Vetores dinâmicos e range-based loops em C++ moderno.',
+        category: 'STL'
     }
 ];
