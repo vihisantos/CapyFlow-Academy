@@ -93,5 +93,45 @@ export const Storage = {
         const updatedSessions = [newSession, ...sessions].slice(0, 50);
         localStorage.setItem(KEYS.SESSIONS, JSON.stringify(updatedSessions));
         return newSession;
+    },
+
+    // Backup System (Pro Feature)
+    exportData: (): string => {
+        if (typeof window === 'undefined') return '';
+        const data = {
+            user: JSON.parse(localStorage.getItem(KEYS.USER) || 'null'),
+            stats: JSON.parse(localStorage.getItem(KEYS.STATS) || 'null'),
+            sessions: JSON.parse(localStorage.getItem(KEYS.SESSIONS) || '[]'),
+            theme: localStorage.getItem('capy_theme') || 'cyber-noir',
+            timestamp: Date.now(),
+            version: 1
+        };
+        return btoa(JSON.stringify(data)); // Base64 encode for simple obfuscation
+    },
+
+    importData: (base64Data: string): boolean => {
+        try {
+            const json = atob(base64Data);
+            const data = JSON.parse(json);
+
+            // Basic Validation
+            if (!data.user || !data.stats || !data.version) {
+                throw new Error("Invalid Save File");
+            }
+
+            // Restore
+            if (data.user) localStorage.setItem(KEYS.USER, JSON.stringify(data.user));
+            if (data.stats) localStorage.setItem(KEYS.STATS, JSON.stringify(data.stats));
+            if (data.sessions) localStorage.setItem(KEYS.SESSIONS, JSON.stringify(data.sessions));
+            if (data.theme) localStorage.setItem('capy_theme', data.theme);
+
+            // Force reload to apply changes
+            window.location.reload();
+            return true;
+        } catch (e) {
+            console.error("Import failed:", e);
+            return false;
+        }
     }
 };
+

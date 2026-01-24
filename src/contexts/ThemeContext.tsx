@@ -10,6 +10,7 @@ interface ThemeContextType {
     setTheme: (theme: ThemeId) => void;
     isPro: boolean;
     unlockPro: () => void;
+    checkoutUrl: string | null;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -17,6 +18,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setThemeState] = useState<ThemeId>('cyber-noir');
     const [isPro, setIsPro] = useState(false);
+    const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
     useEffect(() => {
         // Load from storage
@@ -42,9 +44,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
 
     const unlockPro = () => {
-        setIsPro(true);
-        localStorage.setItem('capy_pro', 'true');
-        alert("PARABÉNS! Você agora é um CapyFlow PRO! 🏆");
+        // Mock Payment Flow for GitHub Pages
+        const confirm = window.confirm("Você será redirecionado para o Mercado Pago (Simulação). Confirmar pagamento?");
+        if (confirm) {
+            setIsPro(true);
+            localStorage.setItem('capy_pro', 'true');
+            alert("Pagamento Aprovado! Você agora é PRO! 🏆");
+        }
     };
 
     // Ensure theme is applied on initial load
@@ -53,7 +59,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, [theme]);
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme, isPro, unlockPro }}>
+        <ThemeContext.Provider value={{ theme, setTheme, isPro, unlockPro, checkoutUrl }}>
             {children}
         </ThemeContext.Provider>
     );

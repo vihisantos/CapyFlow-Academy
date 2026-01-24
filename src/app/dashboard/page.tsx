@@ -6,8 +6,9 @@ import { Gamification, LEVEL_CURVE } from "@/lib/gamification";
 import { useTheme } from "@/contexts/ThemeContext";
 
 import { motion } from "framer-motion";
-import { Trophy, Zap, Clock, Activity, Medal, ArrowUpRight, Palette, Crown } from "lucide-react";
+import { Trophy, Zap, Clock, Activity, Medal, ArrowUpRight, Palette, Crown, Lock } from "lucide-react";
 import Link from "next/link";
+
 
 export default function Dashboard() {
     const { isPro } = useTheme();
@@ -159,6 +160,74 @@ export default function Dashboard() {
                         )}
                     </div>
                 </div>
+
+                {/* Backup / Export Section */}
+                <div className="p-8 glass rounded-2xl border border-white/5">
+                    <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 className="text-2xl font-bold mb-1">Backup & Dados</h2>
+                            <p className="text-gray-400">Exporte seu progresso para não perder nada.</p>
+                        </div>
+                        {!isPro && (
+                            <span className="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-yellow-500/20 flex items-center gap-1">
+                                <Crown size={12} /> Recurso Pro
+                            </span>
+                        )}
+                    </div>
+
+                    <div className="flex gap-4">
+                        <button
+                            onClick={() => {
+                                if (!isPro) {
+                                    alert("Faça o upgrade para PRO para liberar backups!");
+                                    return;
+                                }
+                                const data = Storage.exportData();
+                                const blob = new Blob([data], { type: 'application/json' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `capyflow_save_${new Date().toISOString().split('T')[0]}.capy`;
+                                a.click();
+                            }}
+                            className={`flex-1 py-4 rounded-xl font-bold border transition-all flex items-center justify-center gap-2
+                                ${isPro ? 'bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20' : 'bg-white/5 opacity-50 cursor-not-allowed border-white/5'}
+                            `}
+                        >
+                            {!isPro && <Lock size={16} />}
+                            Exportar Save
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                if (!isPro) {
+                                    alert("Faça o upgrade para PRO para liberar backups!");
+                                    return;
+                                }
+                                const input = document.createElement('input');
+                                input.type = 'file';
+                                input.accept = '.capy';
+                                input.onchange = (e: any) => {
+                                    const file = e.target.files[0];
+                                    const reader = new FileReader();
+                                    reader.onload = (event) => {
+                                        const content = event.target?.result as string;
+                                        Storage.importData(content);
+                                    };
+                                    reader.readAsText(file);
+                                };
+                                input.click();
+                            }}
+                            className={`flex-1 py-4 rounded-xl font-bold border transition-all flex items-center justify-center gap-2
+                                ${isPro ? 'bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20' : 'bg-white/5 opacity-50 cursor-not-allowed border-white/5'}
+                            `}
+                        >
+                            {!isPro && <Lock size={16} />}
+                            Importar Save
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
@@ -175,3 +244,4 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode, label: string
         </div>
     );
 }
+
