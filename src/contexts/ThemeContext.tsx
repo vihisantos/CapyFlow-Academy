@@ -3,7 +3,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Storage } from '@/lib/storage';
 
-export type ThemeId = 'cyber-noir' | 'matrix' | 'dracula' | 'synthwave';
+export type ThemeId = 'cyber-noir' | 'matrix' | 'dracula' | 'synthwave' | 'naruto' | 'dbz' | 'eva';
+
 
 interface ThemeContextType {
     theme: ThemeId;

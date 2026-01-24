@@ -166,7 +166,15 @@ export default function Arena({ code, language, description, snippetId, onComple
     };
 
     const handleFinish = async (finalValue: string) => {
-        if (!user || !startTime) return;
+        // Critical Fix: Ensure we try to save even if transient state is odd, but need user.
+        // If !user, try to grab from Storage directly as fallback?
+        // useAuth should always be source of truth.
+        if (!user) {
+            alert("⚠️ Erro: Usuário não encontrado. Seus dados não serão salvos. Faça login novamente.");
+            return;
+        }
+
+        if (!startTime) return;
 
         const timeElapsed = (Date.now() - startTime) / 1000;
         const wordsTyped = finalValue.length / 5;
@@ -178,25 +186,27 @@ export default function Arena({ code, language, description, snippetId, onComple
         }
         const currentAccuracy = Math.max(0, Math.round(((finalValue.length - errors) / finalValue.length) * 100)) || 100;
 
+        // Visual Feedback
+        console.log(`[Arena] Completed. WPM: ${currentWpm}, Acc: ${currentAccuracy}%`);
+
         try {
             // Local Gamification Logic
-            const result = Gamification.processSession(currentWpm, currentAccuracy, snippetId, 'Iniciante', timeElapsed); // Difficulty hardcoded for now or passed prop?
-            // Actually snippet has difficulty prop but Arena might not receive it directly if simplified props.
-            // Let's assume 'Iniciante' default or add difficulty prop to Arena.
-            // But wait, Arena receives `description` and `snippetId`.
-            // Ideally we pass difficulty too.
-            // For now, let's just Log it.
+            const result = Gamification.processSession(currentWpm, currentAccuracy, snippetId, 'Iniciante', timeElapsed);
 
-            console.log('Session saved locally:', result);
+            console.log('Session sav result:', result);
+
             if (result.levelUp) {
-                // Trigger Level Up Animation (todo)
-                alert(`LEVEL UP! Você alcançou o nível ${result.newLevel}`);
+                // Better Alert
+                setTimeout(() => alert(`🎉 LEVEL UP! Nível ${result.newLevel} Alcançado!`), 500);
             }
+
             if (onComplete) onComplete();
         } catch (error) {
             console.error('Error saving session:', error);
+            alert("Erro ao salvar progresso. Verifique o console.");
         }
     };
+
 
 
 

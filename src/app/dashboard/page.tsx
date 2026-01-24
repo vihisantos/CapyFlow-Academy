@@ -6,7 +6,8 @@ import { Gamification, LEVEL_CURVE } from "@/lib/gamification";
 import { useTheme } from "@/contexts/ThemeContext";
 
 import { motion } from "framer-motion";
-import { Trophy, Zap, Clock, Activity, Medal, ArrowUpRight, Palette, Crown, Lock } from "lucide-react";
+import { Trophy, Zap, Clock, Activity, Medal, ArrowUpRight, Palette, Crown, Lock, ArrowLeft } from "lucide-react";
+
 import Link from "next/link";
 
 
@@ -57,8 +58,12 @@ export default function Dashboard() {
         <div className="min-h-screen bg-[#020617] text-white p-8 pb-32">
             <div className="max-w-6xl mx-auto space-y-12">
                 {/* Header Profile */}
-                <div className="flex flex-col md:flex-row justify-between items-end pb-8 border-b border-white/5 space-y-6 md:space-y-0">
-                    <div className="flex items-center space-x-6">
+                <div className="flex flex-col md:flex-row justify-between items-end pb-8 border-b border-white/5 space-y-6 md:space-y-0 relative">
+                    <Link href="/" className="absolute top-[-30px] left-0 text-sm text-gray-500 flex items-center hover:text-cyan-400 transition-colors">
+                        <ArrowLeft size={16} className="mr-1" /> Voltar para Início
+                    </Link>
+                    <div className="flex items-center space-x-6 pt-4">
+
                         <img src={user.photoURL} className="w-24 h-24 rounded-full border-2 border-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.2)]" />
                         <div>
                             <div className="flex items-center gap-2 mb-2">

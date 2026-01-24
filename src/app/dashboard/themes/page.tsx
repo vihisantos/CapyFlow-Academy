@@ -2,7 +2,8 @@
 
 import { useTheme, ThemeId } from "@/contexts/ThemeContext";
 import { THEMES } from "@/lib/themes";
-import { Lock, Check, Zap } from "lucide-react";
+import { Lock, Check, Zap, ArrowLeft } from "lucide-react";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -19,9 +20,11 @@ export default function ThemeStore() {
                         <h1 className="text-4xl font-bold tracking-tight mb-2">Loja de Temas</h1>
                         <p className="text-gray-400">Personalize seu ambiente de treino.</p>
                     </div>
-                    <Link href="/dashboard" className="px-6 py-2 glass rounded-xl text-sm font-bold hover:bg-white/5 transition-all">
-                        Voltar ao Dashboard
+                    <Link href="/dashboard" className="flex items-center text-gray-500 hover:text-white transition-colors group">
+                        <ArrowLeft size={20} className="mr-2 group-hover:-translate-x-1 transition-transform" />
+                        <span>Voltar ao Dashboard</span>
                     </Link>
+
                 </div>
 
                 {/* Pro Check */}

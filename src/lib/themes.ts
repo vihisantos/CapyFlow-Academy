@@ -35,5 +35,24 @@ export const THEMES: ThemeDef[] = [
         name: 'Synthwave',
         description: 'Sunset, neon e vibrações dos anos 80.',
         colors: { primary: '#f472b6', secondary: '#facc15', bg: '#2c003e' }
+    },
+    {
+        id: 'naruto',
+        name: 'Konoha Force',
+        description: 'Chakra laranja e determinação ninja.',
+        colors: { primary: '#f97316', secondary: '#000000', bg: '#0f172a' }
+    },
+    {
+        id: 'dbz',
+        name: 'Saiyan Spirit',
+        description: 'Poder de luta de mais de 8000.',
+        colors: { primary: '#fbbf24', secondary: '#3b82f6', bg: '#1e3a8a' }
+    },
+    {
+        id: 'eva',
+        name: 'Unit 01',
+        description: 'Sincronização 400%. Caos e Mecha.',
+        colors: { primary: '#a855f7', secondary: '#22c55e', bg: '#2e1065' }
     }
 ];
+
