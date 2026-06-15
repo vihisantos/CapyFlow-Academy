@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   basePath: isProd ? '/CapyFlow-Academy' : '',
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 
