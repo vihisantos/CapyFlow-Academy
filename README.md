@@ -1,14 +1,12 @@
 
-<h1 align="center">
-  <span>Capy</span><span style="color: #a78bfa">Flow</span> <span style="color: #64748b">Academy</span>
-</h1>
+# CapyFlow Academy
 
 <p align="center">
-  <strong>Domine o Codigo. Acelere sua evolução.</strong>
+  <strong>Domine o Codigo. Acelere sua evolucao.</strong>
   <br>
   Plataforma gamificada de ensino em desenvolvimento de software
   <br>
-  com pratica deliberada, desafios interativos e progressão em niveis.
+  com pratica deliberada, desafios interativos e progressao em niveis.
 </p>
 
 <p align="center">
@@ -73,12 +71,12 @@ Diferente de cursos tradicionais, aqui voce **digita codigo de verdade** desde o
 
 ## Funcionalidades Principais
 
-- **Arena de Treino** &mdash; Editor Monaco ao vivo com snippets reais de JavaScript, TypeScript, Python e mais
-- **Sistema de Gamificacao** &mdash; XP por precisao e velocidade, curva de niveis quadratica
-- **Dashboard Interativo** &mdash; Estatisticas de progresso, historico de sessoes, graficos de desempenho
-- **Loja de Temas** &mdash; Personalizacao visual com temas exclusivos
-- **Multi-dificuldade** &mdash; Do basico ao avancado, com multiplicadores de XP
-- **Leaderboard** &mdash; Competicao entre alunos (em breve)
+- **Arena de Treino** — Editor Monaco ao vivo com snippets reais de JavaScript, TypeScript, Python e mais
+- **Sistema de Gamificacao** — XP por precisao e velocidade, curva de niveis quadratica
+- **Dashboard Interativo** — Estatisticas de progresso, historico de sessoes, graficos de desempenho
+- **Loja de Temas** — Personalizacao visual com temas exclusivos
+- **Multi-dificuldade** — Do basico ao avancado, com multiplicadores de XP
+- **Leaderboard** — Competicao entre alunos (em breve)
 
 ---
 
@@ -86,30 +84,30 @@ Diferente de cursos tradicionais, aqui voce **digita codigo de verdade** desde o
 
 ```
 CapyFlow Academy/
-├── src/
-│   ├── app/               # Rotas e paginas (App Router)
-│   │   ├── arena/         # Arena de desafios
-│   │   ├── dashboard/     # Painel do aluno
-│   │   ├── login/         # Autenticacao
-│   │   ├── cadastro/      # Registro
-│   │   └── resources/     # Documentacao e blog
-│   ├── components/        # Componentes reutilizaveis
-│   ├── contexts/          # Contextos React (ThemeContext)
-│   ├── hooks/             # Custom hooks (useAuth)
-│   └── lib/               # Servicos e utilitarios
-│       ├── api.ts         # Cliente HTTP
-│       ├── firebase.ts    # Configuracao Firebase
-│       ├── gamification.ts # Motor de XP e niveis
-│       ├── mercadopago.ts # Gateway de pagamento
-│       └── storage.ts     # Persistencia local
-├── backend/
-│   └── src/
-│       ├── auth/          # Modulo de autenticacao
-│       ├── sessions/      # Gerenciamento de sessoes
-│       ├── app.module.ts  # Modulo raiz
-│       └── main.ts        # Entry point
-├── public/                # Assets estaticos
-└── package.json
+  src/
+    app/               Rotas e paginas (App Router)
+      arena/           Arena de desafios
+      dashboard/       Painel do aluno
+      login/           Autenticacao
+      cadastro/        Registro
+      resources/       Documentacao e blog
+    components/        Componentes reutilizaveis
+    contexts/          Contextos React (ThemeContext)
+    hooks/             Custom hooks (useAuth)
+    lib/               Servicos e utilitarios
+      api.ts           Cliente HTTP
+      firebase.ts      Configuracao Firebase
+      gamification.ts  Motor de XP e niveis
+      mercadopago.ts   Gateway de pagamento
+      storage.ts       Persistencia local
+  backend/
+    src/
+      auth/            Modulo de autenticacao
+      sessions/        Gerenciamento de sessoes
+      app.module.ts    Modulo raiz
+      main.ts          Entry point
+  public/              Assets estaticos
+  package.json
 ```
 
 ---
@@ -134,9 +132,7 @@ A autenticacao e hibrida: o frontend utiliza o Firebase Client SDK para login, e
 
 <p align="center">
   <br>
-  <sub>
-    Desenvolvido por <a href="https://capybaraholding.com.br" target="_blank"><strong>Capybara Holding</strong></a>
-  </sub>
+  <sub>Desenvolvido por <a href="https://capybaraholding.com.br" target="_blank"><strong>Capybara Holding</strong></a></sub>
   <br>
   <sub>&copy; 2026 CapyFlow Academy. Todos os direitos reservados.</sub>
 </p>
