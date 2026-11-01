@@ -23,10 +23,15 @@ export class SessionsService {
     }
 
     async getGlobalStats() {
-        // Basic global stats implementation
-        const sessions = await this.sessionsRepository.find();
-        const totalSessions = sessions.length;
-        const avgWpm = sessions.reduce((acc, s) => acc + s.wpm, 0) / totalSessions || 0;
-        return { totalSessions, avgWpm: Math.round(avgWpm) };
+        const stats = await this.sessionsRepository
+            .createQueryBuilder('session')
+            .select('COUNT(session.id)', 'totalSessions')
+            .addSelect('COALESCE(AVG(session.wpm), 0)', 'avgWpm')
+            .getRawOne<{ totalSessions: string; avgWpm: string }>();
+
+        return {
+            totalSessions: Number(stats?.totalSessions ?? 0),
+            avgWpm: Math.round(Number(stats?.avgWpm ?? 0)),
+        };
     }
 }
